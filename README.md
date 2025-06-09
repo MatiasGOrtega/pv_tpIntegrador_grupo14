@@ -73,4 +73,4 @@ Cada funcionalidad a implementar se desarrollará en una **rama individual**. Ca
 | Rodrigo Alexis Guanactolay | `GuanactolayRodrigo` |
 | Lucas Enrique Cari         | `CariLucky`          |
 | Victor Fernando Balcazar   | `vfbalcazar08`       |
-
+| Gabriel Maximiliano Tarcaya| `MaximilianoT13`     |
