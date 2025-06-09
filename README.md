@@ -72,3 +72,4 @@ Cada funcionalidad a implementar se desarrollará en una **rama individual**. Ca
 | Matias Gabriel Ortega      | `MatiasGOrtega`      |
 | Rodrigo Alexis Guanactolay | `GuanactolayRodrigo` |
 | Lucas Enrique Cari         | `CariLucky`          |
+| Gabriel Maximiliano Tarcaya| `MaximilianoT13`     |
