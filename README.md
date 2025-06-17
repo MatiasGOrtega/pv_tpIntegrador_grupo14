@@ -70,7 +70,7 @@ Cada funcionalidad a implementar se desarrollará en una **rama individual**. Ca
 | Nombre completo            | Usuario GitHub       |
 | -------------------------- | -------------------- |
 | Matias Gabriel Ortega      | `MatiasGOrtega`      |
-| Gabriel Tarcaya            | `safaqui00`          |
+| Gabriel Tarcaya            | `MaximilianoT13`     |
 | Rodrigo Alexis Guanactolay | `GuanactolayRodrigo` |
 | Balcazar Victor Fernando   | `vfbalcazar08`       |
-| Cari Lucas Enrique         | `MaximilianoT13`     |
+| Cari Lucas Enrique         | `CariLucky`          |
