@@ -83,5 +83,12 @@ const productsSlice = createSlice({
   },
 });
 
-export const { addProduct, editProduct, deleteProduct, toggleFavorite } = productsSlice.actions;
+// Selector para obtener productos favoritos
+export const selectFavorites = (state) => {
+  return state.products.items.filter(product =>
+    state.products.favorites.includes(product.id)
+  );
+};
+
+export const { addProduct, editProduct, deleteProduct, toggleFavorite, clearFavorites } = productsSlice.actions;
 export default productsSlice.reducer;
