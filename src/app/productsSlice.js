@@ -25,6 +25,7 @@ const productsSlice = createSlice({
   name: 'products',
   initialState: {
     items: [],
+    currentItem: null,
     favorites: JSON.parse(localStorage.getItem('favorites')) || [],
     status: 'idle',
     error: null,

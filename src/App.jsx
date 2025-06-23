@@ -5,12 +5,14 @@ import FormProduct from "./pages/FormProduct"
 import ProductDetail from "./pages/ProductDetail"
 import About from "./pages/About"
 import Favorites from "./pages/Favorites"
+import Navbar from "./components/NavBar"
 
 function App() {
 
   return (
     <>
       <div>
+        <Navbar/>
         <h1>React Router</h1>
       </div>
       <Routes>
