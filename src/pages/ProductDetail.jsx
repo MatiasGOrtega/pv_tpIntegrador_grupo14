@@ -1,16 +1,22 @@
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { useSelector, useDispach } from 'react-redux';
-import {toggleFavorite} from '../app/productsSlice';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { fetchProductById, toggleFavorite } from '../app/productsSlice';
+import { useAppDispatch, useAppSelector } from '../hooks/store';
+import { Button } from '@radix-ui/themes';
+import { useEffect } from 'react';
+
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const dispatch = useDispach();
+  const dispatch = useAppDispatch();
 
-  const product = useSelector(state =>
-    state.products.items.find(item => item.id === parseInt(id))
+  const product = useAppSelector(state => state.products.currentItem);
+  const isFavorite = useAppSelector(state =>
+    state.products.favorites.includes(Number(id))
   );
-  const favorites = useSelector(state => state.products.favorites);
-  const isFavorite = favorites.includes(parseInt(id));
+
+  useEffect(() => {
+    dispatch(fetchProductById(id));
+  }, [id, dispatch]);
 
   const handleToggleFavorite = () => {
     dispatch(toggleFavorite(product.id));
@@ -23,15 +29,17 @@ const ProductDetail = () => {
   return (
     <div>
       <h2>{product.title}</h2>
-      <img src= {product.image} alt={product.title} />
+      <img src={product.image} alt={product.title} />
       <p>Descripción: {product.description}</p>
       <p>Precio: ${product.price}</p>
       <p>Categoría: {product.category}</p>
       <p>Calificación: {product.rating.rate}★ - ({product.rating.count} votos)</p>
-      <button onClick={handleToggleFavorite}>
+      <Button onClick={handleToggleFavorite}>
         {isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-      </button>
-      <button onClick={() => navigate('/')}>Volver</button>
+      </Button>
+      <Button onClick={() => navigate(-1)} variant="soft" size="2" color="blue">
+        Volver
+      </Button>
       <Link to={`/products/${product.id}/edit`}>Editar producto</Link>
     </div>
   )
