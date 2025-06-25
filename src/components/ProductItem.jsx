@@ -1,14 +1,14 @@
-import { Box, Card, Inset, Strong, Text } from '@radix-ui/themes'
-import React from 'react'
+import { Badge, Box, Flex, Inset, Text } from '@radix-ui/themes'
 import { Link } from 'react-router-dom'
 import FavoriteButton from './FavoriteButton'
 
 function ProductItem({ product }) {
+
   return (
-    <Box position={"relative"}>
+    <Box className='product-card' position="relative">
       <FavoriteButton productId={product.id} />
-      <Card size="2" style={{ height: "100%" }} asChild>
-        <Link to={`/products/${product.id}`}>
+      <Link to={`/products/${product.id}`}>
+        <Flex position={"relative"} direction="column" p="2" gap="1">
           <Inset clip="padding-box" side="top" pb="current">
             <img
               src={product.image}
@@ -22,17 +22,33 @@ function ProductItem({ product }) {
               }}
             />
           </Inset>
-          <Text as="p" size="3">
-            <Strong>{product.title}</Strong>
-          </Text>
-          <Text size="2" color="gray">
-            Rating: {product.rating.rate}
-          </Text>
-          <Text size="2" color="gray">
-            Price: ${product.price}
-          </Text>
-        </Link>
-      </Card>
+
+          <Flex direction="column" align="start" justify="between" gap="2">
+            <Badge color="indigo">{product.category}</Badge>
+            <Box width="100%">
+              <Text className='title-product' as="p" size="4" weight="bold" truncate>
+                {product.title}
+              </Text>
+            </Box>
+
+            <Box width="100%" >
+              <Text as='p' color='gray' size="3" truncate>
+                {product.description}
+              </Text>
+            </Box>
+
+            <Text my="2" size="5" color='indigo' weight='bold'>
+              ${product.price} ARS
+            </Text>
+
+            <Badge color="grass" size="3">
+              <Text weight="medium">
+                {product.rating.rate} puntos
+              </Text>
+            </Badge>
+          </Flex>
+        </Flex >
+      </Link>
     </Box>
   )
 }
