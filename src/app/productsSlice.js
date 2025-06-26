@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const URL_API = import.meta.env.VITE_URL_API_PRODUCTS;
@@ -84,12 +84,12 @@ const productsSlice = createSlice({
   },
 });
 
+
 // Selector para obtener productos favoritos
-export const selectFavorites = (state) => {
-  return state.products.items.filter(product =>
-    state.products.favorites.includes(product.id)
-  );
-};
+export const selectFavorites = createSelector(
+  [(state) => state.products.items, (state) => state.products.favorites],
+  (items, favorites) => items.filter(product => favorites.includes(product.id))
+);
 
 export const { addProduct, editProduct, deleteProduct, toggleFavorite, clearFavorites } = productsSlice.actions;
 export default productsSlice.reducer;
