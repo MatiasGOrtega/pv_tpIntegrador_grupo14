@@ -1,17 +1,17 @@
 import { TabNav, Text } from '@radix-ui/themes';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../app/userSlice';
+import { logoutSession } from '../app/userSlice';
 
 const Navbar = () => {
 
-  const user = useSelector(state => state.user.user);
+  const user = useSelector(state => state.auth.userSession);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem('sessionUser');
-    dispatch(logout());
+    dispatch(logoutSession());
     navigate('/login');
   };
 
