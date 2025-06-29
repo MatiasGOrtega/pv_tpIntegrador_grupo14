@@ -7,6 +7,7 @@ import About from "./pages/About"
 import Favorites from "./pages/Favorites"
 import Navbar from "./components/NavBar"
 import ProductsLoader from "./components/ProductsLoader"
+import Register from "./pages/Register"
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
       <Routes>
         <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Home />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/products/add" element={<FormProduct />} />
         <Route path="/products/:id/edit" element={<FormProduct />} />

@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../hooks/store'
 import { addProduct, editProduct } from '../app/productsSlice'
 import { useNavigate, useParams } from 'react-router-dom'
-import FormInput from '../components/FormProduct/FormInput'
+import FormInput from '../components/Form/FormInput'
 import { Button, Flex } from '@radix-ui/themes'
-import FormInputSelect from '../components/FormProduct/FormInputSelect'
+import FormInputSelect from '../components/Form/FormInputSelect'
 
 const defaultProd = {
   title: "",

@@ -4,7 +4,7 @@ const FormInput = memo(({ label, name, value, onChange, type = 'text', disabled 
   return (
     <Box mb="2">
       {
-        type === "text" || type === "number" || type === "url" ? (
+        type === "text" || type === "number" || type === "url" || type === "email" || type === "password" ? (
           <>
             <label htmlFor={name}>{label}</label>
             <TextField.Root
