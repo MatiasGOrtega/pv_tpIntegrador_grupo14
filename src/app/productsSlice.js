@@ -1,47 +1,48 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice } from '@reduxjs/toolkit';
 
-const URL_API = import.meta.env.VITE_URL_API_PRODUCTS;
+const loadInitialState = () => {
+  const localProducts = JSON.parse(localStorage.getItem('products')) || [];
+  const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
-// Async Thunks
-export const fetchProducts = createAsyncThunk(
-  'products/fetchProducts',
-  async () => {
-    const { data } = await axios.get(URL_API);
-    return data;
-  }
-);
-
-export const fetchProductById = createAsyncThunk(
-  'products/fetchProductById',
-  async (id) => {
-    const { data } = await axios.get(`${URL_API}/${id}`);
-    return data;
-  }
-);
-
-// Slice
-const productsSlice = createSlice({
-  name: 'products',
-  initialState: {
-    items: [],
+  return {
+    items: localProducts,
     currentItem: null,
-    favorites: JSON.parse(localStorage.getItem('favorites')) || [],
+    favorites,
     status: 'idle',
     error: null,
-  },
+  };
+};
+
+const productsSlice = createSlice({
+  name: 'products',
+  initialState: loadInitialState(),
   reducers: {
     addProduct: (state, action) => {
-      state.items.push(action.payload);
+      const newProduct = {
+        ...action.payload,
+        id: state.items.length > 0 ? Math.max(...state.items.map(p => p.id)) + 1 : 1
+      };
+      state.items.push(newProduct);
+      localStorage.setItem('products', JSON.stringify(state.items));
     },
     editProduct: (state, action) => {
-      const index = state.items.findIndex(item => item.id === action.payload.id);
-      if (index !== -1) {
-        state.items[index] = action.payload;
-      }
+      const updatedProduct = action.payload;
+      state.items = state.items.map(item =>
+        item.id === updatedProduct.id ? updatedProduct : item
+      );
+      localStorage.setItem('products', JSON.stringify(state.items));
     },
     deleteProduct: (state, action) => {
-      state.items = state.items.filter(item => item.id !== action.payload);
+      const productId = action.payload;
+      state.items = state.items.filter(item => item.id !== productId);
+      localStorage.setItem('products', JSON.stringify(state.items));
+
+      state.favorites = state.favorites.filter(id => id !== productId);
+      localStorage.setItem('favorites', JSON.stringify(state.favorites));
+
+      if (state.currentItem && state.currentItem.id === productId) {
+        state.currentItem = null;
+      }
     },
     toggleFavorite: (state, action) => {
       const productId = action.payload;
@@ -52,44 +53,37 @@ const productsSlice = createSlice({
       } else {
         state.favorites.splice(index, 1);
       }
-      // Guardamos los faoritos en el localStorage
       localStorage.setItem('favorites', JSON.stringify(state.favorites));
     },
     clearFavorites: (state) => {
       state.favorites = [];
       localStorage.removeItem('favorites');
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      // Fetch de los productos
-      .addCase(fetchProducts.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(fetchProducts.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.items = action.payload;
-      })
-      .addCase(fetchProducts.rejected, (state) => {
-        state.status = 'failed';
-      })
-      // Fetch de un producto por ID
-      .addCase(fetchProductById.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(fetchProductById.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.currentItem = action.payload;
-      });
-  },
+    setProductsFromAPI: (state, action) => {
+      const apiProducts = action.payload;
+
+      localStorage.setItem('products', JSON.stringify(apiProducts));
+    },
+    setCurrentProduct: (state, action) => {
+      state.currentItem = action.payload;
+    }
+  }
 });
 
-// Selector para obtener productos favoritos
 export const selectFavorites = (state) => {
   return state.products.items.filter(product =>
     state.products.favorites.includes(product.id)
   );
 };
 
-export const { addProduct, editProduct, deleteProduct, toggleFavorite, clearFavorites } = productsSlice.actions;
+export const {
+  addProduct,
+  editProduct,
+  deleteProduct,
+  toggleFavorite,
+  clearFavorites,
+  setProductsFromAPI,
+  setCurrentProduct
+} = productsSlice.actions;
+
 export default productsSlice.reducer;

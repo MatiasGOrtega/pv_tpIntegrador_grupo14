@@ -6,11 +6,13 @@ import ProductDetail from "./pages/ProductDetail"
 import About from "./pages/About"
 import Favorites from "./pages/Favorites"
 import Navbar from "./components/NavBar"
+import ProductsLoader from "./components/ProductsLoader"
 
 function App() {
 
   return (
     <>
+      <ProductsLoader />
       <div>
         <Navbar/>
         <h1>React Router</h1>
