@@ -5,7 +5,7 @@ import FavoriteButton from './FavoriteButton'
 function ProductItem({ product }) {
 
   return (
-    <Box className='product-card' position="relative">
+    <Box className='product-card' position="relative" maxWidth={"250px"}>
       <FavoriteButton productId={product.id} />
       <Link to={`/products/${product.id}`}>
         <Flex position={"relative"} direction="column" p="2" gap="1">
