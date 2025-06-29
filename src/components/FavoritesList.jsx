@@ -1,21 +1,15 @@
-// import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../hooks/store"
+import { useAppSelector } from "../hooks/store"
 import { Grid } from "@radix-ui/themes";
 import ProductItem from "./ProductItem";
-import { clearFavorites, selectFavorites } from "../app/productsSlice";
+import { selectFavorites } from "../app/productsSlice";
+import { memo } from "react";
 
 function FavoriteList() {
 
-  const dispatch = useAppDispatch();
   const favorites = useAppSelector(selectFavorites);
-
-  const handleClearFavorites = () => {
-    dispatch(clearFavorites());
-  };
 
   return (
     <>
-      <button onClick={handleClearFavorites}>Limpiar Favoritos</button>
       {
         favorites.length > 0 ? (
           <Grid columns={"repeat(auto-fit, minmax(250px, 1fr))"} gap="4" maxWidth={"1200px"} justify={"center"} mx="auto">
@@ -31,4 +25,4 @@ function FavoriteList() {
   )
 }
 
-export default FavoriteList
+export default memo(FavoriteList)
