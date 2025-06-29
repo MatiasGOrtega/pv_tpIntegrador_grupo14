@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createSelector } from '@reduxjs/toolkit';
 
 const loadInitialState = () => {
   const localProducts = JSON.parse(localStorage.getItem('products')) || [];
@@ -70,11 +70,11 @@ const productsSlice = createSlice({
   }
 });
 
-export const selectFavorites = (state) => {
-  return state.products.items.filter(product =>
-    state.products.favorites.includes(product.id)
-  );
-};
+// Selector para obtener productos favoritos
+export const selectFavorites = createSelector(
+  [(state) => state.products.items, (state) => state.products.favorites],
+  (items, favorites) => items.filter(product => favorites.includes(product.id))
+);
 
 export const {
   addProduct,
